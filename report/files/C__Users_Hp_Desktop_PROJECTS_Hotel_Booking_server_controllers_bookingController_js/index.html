@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - C:\Users\Hp\Desktop\PROJECTS\Hotel-Booking\server\controllers\bookingController.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>C:\Users\Hp\Desktop\PROJECTS\Hotel-Booking\server\controllers\bookingController.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">48.79</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">392</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">70.51</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">3.37</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">import Booking from &#039;../models/Booking.js&#039;;
+import User from &#039;../models/user.js&#039;;
+import Listing from &#039;../models/listing.js&#039;;
+import { sendConfirmationEmail, sendBookingUpdateEmail } from &#039;../utils/emailSender.js&#039;;
+
+// Calculate total booking price: per person price * guests * number of days
+export const calculateBookingPrice = async (req, res) =&gt; {
+  try {
+    const { hotelId, checkInDate, checkOutDate, guests } = req.body;
+
+    // Validate input
+    if (!hotelId || !checkInDate || !checkOutDate || !guests) {
+      return res.status(400).json({ 
+        success: false, 
+        message: &quot;Missing required fields: hotelId, checkInDate, checkOutDate, guests&quot; 
+      });
+    }
+
+    // Get hotel details
+    const hotel = await Listing.findById(hotelId);
+    if (!hotel) {
+      return res.status(404).json({ 
+        success: false, 
+        message: &quot;Hotel not found&quot; 
+      });
+    }
+
+    // Calculate number of days
+    const startDate = new Date(checkInDate);
+    const endDate = new Date(checkOutDate);
+    
+    if (startDate &gt;= endDate) {
+      return res.status(400).json({ 
+        success: false, 
+        message: &quot;Check-out date must be after check-in date&quot; 
+      });
+    }
+
+    const diffInTime = endDate.getTime() - startDate.getTime();
+    const numberOfDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
+
+    if (numberOfDays &lt;= 0) {
+      return res.status(400).json({ 
+        success: false, 
+        message: &quot;Invalid date range&quot; 
+      });
+    }
+
+    // Calculate total price: per person price * guests * number of days
+    const pricePerPersonPerDay = hotel.pricePerNight || 0;
+    const totalPrice = pricePerPersonPerDay * guests * numberOfDays;
+
+    res.json({ 
+      success: true, 
+      data: {
+        hotelTitle: hotel.title,
+        pricePerPersonPerDay,
+        numberOfDays,
+        guests: parseInt(guests),
+        totalPrice,
+        breakdown: {
+          basePrice: pricePerPersonPerDay,
+          guests: parseInt(guests),
+          nights: numberOfDays,
+          calculation: `$${pricePerPersonPerDay} × ${guests} guests × ${numberOfDays} nights = $${totalPrice}`
+        }
+      }
+    });
+  } catch (error) {
+    console.error(&#039;Price calculation error:&#039;, error);
+    res.status(500).json({ 
+      success: false, 
+      message: &quot;Error calculating booking price: &quot; + error.message 
+    });
+  }
+};
+
+// Check availability for specific dates
+export const checkAvailability = async (req, res) =&gt; {
+  try {
+    const { hotelId, checkInDate, checkOutDate } = req.body;
+
+    if (!hotelId || !checkInDate || !checkOutDate) {
+      return res.status(400).json({ 
+        success: false, 
+        message: &quot;Missing required fields: hotelId, checkInDate, checkOutDate&quot; 
+      });
+    }
+
+    const startDate = new Date(checkInDate);
+    const endDate = new Date(checkOutDate);
+
+    // Find overlapping bookings
+    const overlappingBookings = await Booking.find({
+      hotel: hotelId,
+      status: { $ne: &#039;cancelled&#039; }, // Exclude cancelled bookings
+      $or: [
+        {
+          checkInDate: { $lt: endDate },
+          checkOutDate: { $gt: startDate }
+        }
+      ]
+    });
+
+    const isAvailable = overlappingBookings.length === 0;
+
+    res.json({ 
+      success: true, 
+      available: isAvailable,
+      conflictingBookings: overlappingBookings.length,
+      message: isAvailable ? &quot;Hotel is available for selected dates&quot; : &quot;Hotel is not available for selected dates&quot;
+    });
+  } catch (error) {
+    console.error(&#039;Availability check error:&#039;, error);
+    res.status(500).json({ 
+      success: false, 
+      message: &quot;Error checking availability: &quot; + error.message 
+    });
+  }
+};
+
+// Create new booking
+export const createBooking = async (req, res) =&gt; {
+  try {
+    const { hotelId, checkInDate, checkOutDate, guests } = req.body;
+    const userId = req.auth.userId;
+
+    // Validate input
+    if (!hotelId || !checkInDate || !checkOutDate || !guests) {
+      return res.status(400).json({ 
+        success: false, 
+        message: &quot;Missing required fields: hotelId, checkInDate, checkOutDate, guests&quot; 
+      });
+    }
+
+    // Get hotel details
+    const hotel = await Listing.findById(hotelId);
+    if (!hotel) {
+      return res.status(404).json({ 
+        success: false, 
+        message: &quot;Hotel not found&quot; 
+      });
+    }
+
+    // Get user details
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ 
+        success: false, 
+        message: &quot;User not found&quot; 
+      });
+    }
+
+    const startDate = new Date(checkInDate);
+    const endDate = new Date(checkOutDate);
+
+    // Validate dates
+    if (startDate &gt;= endDate) {
+      return res.status(400).json({ 
+        success: false, 
+        message: &quot;Check-out date must be after check-in date&quot; 
+      });
+    }
+
+    if (startDate &lt; new Date()) {
+      return res.status(400).json({ 
+        success: false, 
+        message: &quot;Check-in date cannot be in the past&quot; 
+      });
+    }
+
+    // Check availability
+    const overlappingBookings = await Booking.find({
+      hotel: hotelId,
+      status: { $ne: &#039;cancelled&#039; },
+      $or: [
+        {
+          checkInDate: { $lt: endDate },
+          checkOutDate: { $gt: startDate }
+        }
+      ]
+    });
+
+    if (overlappingBookings.length &gt; 0) {
+      return res.status(400).json({ 
+        success: false, 
+        message: &quot;Hotel not available for selected dates. Please choose different dates.&quot; 
+      });
+    }
+
+    // Calculate total price
+    const numberOfDays = Math.ceil((endDate - startDate) / (1000 * 3600 * 24));
+    const totalPrice = hotel.pricePerNight * guests * numberOfDays;
+
+    // Create booking
+    const newBooking = await Booking.create({
+      user: userId,
+      hotel: hotelId,
+      checkInDate: startDate,
+      checkOutDate: endDate,
+      guests: parseInt(guests),
+      totalPrice: totalPrice,
+      status: &#039;confirmed&#039;,
+      bookingDate: new Date()
+    });
+
+    // Populate booking with hotel details
+    await newBooking.populate(&#039;hotel&#039;);
+    await newBooking.populate(&#039;user&#039;);
+
+    // Update user&#039;s booking history
+    await User.findByIdAndUpdate(
+      userId,
+      { $push: { previousBookings: newBooking._id } },
+      { new: true }
+    );
+
+    // Send confirmation email (async, don&#039;t block response)
+    sendConfirmationEmail(user.email, newBooking, hotel, user.username || user.email)
+      .then(emailResult =&gt; {
+        console.log(&#039;Glen confirmation email result:&#039;, emailResult);
+      })
+      .catch(emailError =&gt; {
+        console.error(&#039;Glen confirmation email error:&#039;, emailError);
+      });
+
+    res.status(201).json({ 
+      success: true, 
+      message: &quot;Booking created successfully! Glen confirmation email sent to &quot; + user.email,
+      booking: {
+        id: newBooking._id,
+        hotel: {
+          title: hotel.title,
+          location: hotel.location
+        },
+        checkInDate: newBooking.checkInDate,
+        checkOutDate: newBooking.checkOutDate,
+        guests: newBooking.guests,
+        totalPrice: newBooking.totalPrice,
+        status: newBooking.status,
+        bookingDate: newBooking.bookingDate
+      },
+      priceBreakdown: {
+        pricePerPersonPerDay: hotel.pricePerNight,
+        numberOfDays,
+        guests: parseInt(guests),
+        totalPrice,
+        calculation: `$${hotel.pricePerNight} × ${guests} guests × ${numberOfDays} nights = $${totalPrice}`
+      }
+    });
+  } catch (error) {
+    console.error(&#039;Glen booking creation error:&#039;, error);
+    res.status(500).json({ 
+      success: false, 
+      message: &quot;Error creating booking: &quot; + error.message 
+    });
+  }
+};
+
+// Get user&#039;s bookings
+export const getUserBookings = async (req, res) =&gt; {
+  try {
+    const userId = req.auth.userId;
+
+    const bookings = await Booking.find({ user: userId })
+      .populate(&#039;hotel&#039;, &#039;title location images pricePerNight&#039;)
+      .sort({ bookingDate: -1 });
+
+    res.json({ 
+      success: true, 
+      bookings,
+      count: bookings.length,
+      message: bookings.length &gt; 0 ? `Found ${bookings.length} bookings` : &quot;No bookings found&quot;
+    });
+  } catch (error) {
+    console.error(&#039;Get user bookings error:&#039;, error);
+    res.status(500).json({ 
+      success: false, 
+      message: &quot;Error fetching bookings: &quot; + error.message 
+    });
+  }
+};
+
+// Get booking by ID
+export const getBookingById = async (req, res) =&gt; {
+  try {
+    const { bookingId } = req.params;
+    const userId = req.auth.userId;
+
+    const booking = await Booking.findOne({ 
+      _id: bookingId, 
+      user: userId 
+    }).populate(&#039;hotel&#039;).populate(&#039;user&#039;);
+
+    if (!booking) {
+      return res.status(404).json({ 
+        success: false, 
+        message: &quot;Booking not found&quot; 
+      });
+    }
+
+    res.json({ 
+      success: true, 
+      booking 
+    });
+  } catch (error) {
+    console.error(&#039;Get booking by ID error:&#039;, error);
+    res.status(500).json({ 
+      success: false, 
+      message: &quot;Error fetching booking: &quot; + error.message 
+    });
+  }
+};
+
+// Cancel booking
+export const cancelBooking = async (req, res) =&gt; {
+  try {
+    const { bookingId } = req.params;
+    const userId = req.auth.userId;
+
+    const booking = await Booking.findOne({ 
+      _id: bookingId, 
+      user: userId 
+    }).populate(&#039;hotel&#039;).populate(&#039;user&#039;);
+
+    if (!booking) {
+      return res.status(404).json({ 
+        success: false, 
+        message: &quot;Booking not found&quot; 
+      });
+    }
+
+    if (booking.status === &#039;cancelled&#039;) {
+      return res.status(400).json({ 
+        success: false, 
+        message: &quot;Booking is already cancelled&quot; 
+      });
+    }
+
+    // Update booking status
+    booking.status = &#039;cancelled&#039;;
+    booking.cancelledAt = new Date();
+    await booking.save();
+
+    // Send cancellation email
+    sendBookingUpdateEmail(
+      booking.user.email, 
+      booking, 
+      booking.hotel, 
+      &#039;cancelled&#039;,
+      booking.user.username || booking.user.email
+    ).catch(console.error);
+
+    res.json({ 
+      success: true, 
+      message: &quot;Booking cancelled successfully. Cancellation email sent.&quot;,
+      booking: {
+        id: booking._id,
+        status: booking.status,
+        cancelledAt: booking.cancelledAt
+      }
+    });
+  } catch (error) {
+    console.error(&#039;Cancel booking error:&#039;, error);
+    res.status(500).json({ 
+      success: false, 
+      message: &quot;Error cancelling booking: &quot; + error.message 
+    });
+  }
+};
+
+// Get all bookings (admin only)
+export const getAllBookings = async (req, res) =&gt; {
+  try {
+    const bookings = await Booking.find()
+      .populate(&#039;user&#039;, &#039;username email&#039;)
+      .populate(&#039;hotel&#039;, &#039;title location pricePerNight&#039;)
+      .sort({ bookingDate: -1 });
+
+    res.json({ 
+      success: true, 
+      bookings,
+      count: bookings.length 
+    });
+  } catch (error) {
+    console.error(&#039;Get all bookings error:&#039;, error);
+    res.status(500).json({ 
+      success: false, 
+      message: &quot;Error fetching all bookings: &quot; + error.message 
+    });
+  }
+};</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

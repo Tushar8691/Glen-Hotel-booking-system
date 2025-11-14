@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - C:\Users\Hp\Desktop\PROJECTS\Hotel-Booking\server\utils\emailSender.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>C:\Users\Hp\Desktop\PROJECTS\Hotel-Booking\server\utils\emailSender.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">54.04</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">191</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">19.70</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">0.71</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">import nodemailer from &#039;nodemailer&#039;;
+
+const transporter = nodemailer.createTransport({
+    host: &#039;smtp-relay.brevo.com&#039;,
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS
+    }
+  });
+  
+
+
+export const sendConfirmationEmail = async (userEmail, booking, hotelDetails, userName) =&gt; {
+  const checkInDate = new Date(booking.checkInDate);
+  const checkOutDate = new Date(booking.checkOutDate);
+  const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+
+  const mailOptions = {
+    from: `&quot;Glen Hotel Booking&quot; &lt;${process.env.SENDER_EMAIL}&gt;`,
+    to: userEmail,
+    subject: &#039;🎉 Glen Booking Confirmation - Your Stay is Confirmed!&#039;,
+    html: `
+      &lt;!DOCTYPE html&gt;
+      &lt;html lang=&quot;en&quot;&gt;
+      &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+        &lt;title&gt;Glen Booking Confirmation&lt;/title&gt;
+      &lt;/head&gt;
+      &lt;body style=&quot;margin: 0; padding: 0; font-family: &#039;Segoe UI&#039;, Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc;&quot;&gt;
+        &lt;div style=&quot;max-width: 600px; margin: 0 auto; background-color: white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);&quot;&gt;
+          
+          &lt;!-- Header --&gt;
+          &lt;div style=&quot;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px 20px; text-align: center;&quot;&gt;
+            &lt;h1 style=&quot;margin: 0; font-size: 28px; font-weight: bold; letter-spacing: 1px;&quot;&gt;GLEN&lt;/h1&gt;
+            &lt;p style=&quot;margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;&quot;&gt;Hotel Booking System&lt;/p&gt;
+          &lt;/div&gt;
+          
+          &lt;!-- Success Message --&gt;
+          &lt;div style=&quot;padding: 30px 20px 20px 20px; text-align: center; border-bottom: 3px solid #10b981;&quot;&gt;
+            &lt;div style=&quot;background-color: #d1fae5; color: #047857; padding: 15px; border-radius: 8px; margin-bottom: 20px;&quot;&gt;
+              &lt;h2 style=&quot;margin: 0; font-size: 24px;&quot;&gt;🎉 Booking Confirmed!&lt;/h2&gt;
+              &lt;p style=&quot;margin: 10px 0 0 0; font-size: 16px;&quot;&gt;Dear ${userName}, your reservation has been successfully confirmed.&lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          
+          &lt;!-- Booking Details --&gt;
+          &lt;div style=&quot;padding: 20px;&quot;&gt;
+            &lt;h3 style=&quot;color: #374151; margin-bottom: 20px; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px;&quot;&gt;Booking Details&lt;/h3&gt;
+            
+            &lt;table style=&quot;width: 100%; border-collapse: collapse; margin: 20px 0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);&quot;&gt;
+              &lt;tr style=&quot;background-color: #f3f4f6;&quot;&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #e5e7eb; font-weight: bold; color: #374151; width: 40%;&quot;&gt;Booking ID&lt;/td&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #e5e7eb; color: #6b7280; font-family: monospace;&quot;&gt;${booking._id}&lt;/td&gt;
+              &lt;/tr&gt;
+              &lt;tr style=&quot;background-color: white;&quot;&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #e5e7eb; font-weight: bold; color: #374151;&quot;&gt;Hotel&lt;/td&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #e5e7eb; color: #6b7280; font-weight: 600;&quot;&gt;${hotelDetails.title}&lt;/td&gt;
+              &lt;/tr&gt;
+              &lt;tr style=&quot;background-color: #f3f4f6;&quot;&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #e5e7eb; font-weight: bold; color: #374151;&quot;&gt;Location&lt;/td&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #e5e7eb; color: #6b7280;&quot;&gt;${hotelDetails.location || &#039;N/A&#039;}&lt;/td&gt;
+              &lt;/tr&gt;
+              &lt;tr style=&quot;background-color: white;&quot;&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #e5e7eb; font-weight: bold; color: #374151;&quot;&gt;Check-in Date&lt;/td&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #e5e7eb; color: #6b7280;&quot;&gt;${checkInDate.toDateString()}&lt;/td&gt;
+              &lt;/tr&gt;
+              &lt;tr style=&quot;background-color: #f3f4f6;&quot;&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #e5e7eb; font-weight: bold; color: #374151;&quot;&gt;Check-out Date&lt;/td&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #e5e7eb; color: #6b7280;&quot;&gt;${checkOutDate.toDateString()}&lt;/td&gt;
+              &lt;/tr&gt;
+              &lt;tr style=&quot;background-color: white;&quot;&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #e5e7eb; font-weight: bold; color: #374151;&quot;&gt;Number of Nights&lt;/td&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #e5e7eb; color: #6b7280;&quot;&gt;${nights}&lt;/td&gt;
+              &lt;/tr&gt;
+              &lt;tr style=&quot;background-color: #f3f4f6;&quot;&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #e5e7eb; font-weight: bold; color: #374151;&quot;&gt;Number of Guests&lt;/td&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #e5e7eb; color: #6b7280;&quot;&gt;${booking.guests}&lt;/td&gt;
+              &lt;/tr&gt;
+              &lt;tr style=&quot;background-color: #fef3c7; border: 2px solid #f59e0b;&quot;&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #f59e0b; font-weight: bold; color: #92400e; font-size: 16px;&quot;&gt;Total Amount&lt;/td&gt;
+                &lt;td style=&quot;padding: 15px; border: 1px solid #f59e0b; color: #92400e; font-size: 20px; font-weight: bold;&quot;&gt;$${booking.totalPrice}&lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/table&gt;
+          &lt;/div&gt;
+          
+          &lt;!-- Important Information --&gt;
+          &lt;div style=&quot;padding: 20px; background-color: #eff6ff; margin: 20px; border-radius: 8px; border-left: 4px solid #3b82f6;&quot;&gt;
+            &lt;h4 style=&quot;color: #1e40af; margin: 0 0 10px 0; font-size: 16px;&quot;&gt;📋 Important Information&lt;/h4&gt;
+            &lt;ul style=&quot;color: #1e40af; margin: 0; padding-left: 20px; line-height: 1.6;&quot;&gt;
+              &lt;li&gt;Please save this email for your records&lt;/li&gt;
+              &lt;li&gt;Present your booking ID at check-in&lt;/li&gt;
+              &lt;li&gt;Check-in time: 3:00 PM | Check-out time: 11:00 AM&lt;/li&gt;
+              &lt;li&gt;For any changes or cancellations, contact us immediately&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/div&gt;
+          
+          &lt;!-- Contact Information --&gt;
+          &lt;div style=&quot;padding: 20px; background-color: #f9fafb; border-top: 1px solid #e5e7eb;&quot;&gt;
+            &lt;h4 style=&quot;color: #374151; margin: 0 0 15px 0;&quot;&gt;Need Help?&lt;/h4&gt;
+            &lt;p style=&quot;color: #6b7280; margin: 0; line-height: 1.6;&quot;&gt;
+              📧 Email: support@glen-hotels.com&lt;br&gt;
+              📞 Phone: +1 (555) 123-4567&lt;br&gt;
+              🌐 Website: www.glen-hotels.com
+            &lt;/p&gt;
+          &lt;/div&gt;
+          
+          &lt;!-- Footer --&gt;
+          &lt;div style=&quot;background-color: #374151; color: #d1d5db; padding: 20px; text-align: center;&quot;&gt;
+            &lt;p style=&quot;margin: 0; font-size: 14px;&quot;&gt;
+              Thank you for choosing &lt;strong&gt;Glen Hotels&lt;/strong&gt;!&lt;br&gt;
+              We look forward to providing you with an exceptional stay.
+            &lt;/p&gt;
+            &lt;div style=&quot;margin-top: 15px; padding-top: 15px; border-top: 1px solid #4b5563;&quot;&gt;
+              &lt;p style=&quot;margin: 0; font-size: 12px; opacity: 0.8;&quot;&gt;
+                © 2025 Glen Hotel Booking System. All rights reserved.
+              &lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          
+        &lt;/div&gt;
+      &lt;/body&gt;
+      &lt;/html&gt;
+    `
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(&#039;Glen booking confirmation email sent successfully to:&#039;, userEmail);
+    return { success: true, message: &#039;Email sent successfully&#039; };
+  } catch (error) {
+    console.error(&#039;Error sending Glen confirmation email:&#039;, error);
+    return { success: false, message: &#039;Email sending failed&#039;, error: error.message };
+  }
+};
+
+// Send booking update/cancellation emails
+export const sendBookingUpdateEmail = async (userEmail, booking, hotelDetails, updateType, userName) =&gt; {
+  const subject = updateType === &#039;cancelled&#039; ? &#039;Booking Cancelled - Glen Hotels&#039; : &#039;Booking Updated - Glen Hotels&#039;;
+  const statusColor = updateType === &#039;cancelled&#039; ? &#039;#dc2626&#039; : &#039;#f59e0b&#039;;
+  const statusBg = updateType === &#039;cancelled&#039; ? &#039;#fef2f2&#039; : &#039;#fffbeb&#039;;
+
+  const mailOptions = {
+    from: `&quot;Glen Hotel Booking&quot; &lt;${process.env.EMAIL_USER}&gt;`,
+    to: userEmail,
+    subject: subject,
+    html: `
+      &lt;!DOCTYPE html&gt;
+      &lt;html lang=&quot;en&quot;&gt;
+      &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+        &lt;title&gt;Glen Booking Update&lt;/title&gt;
+      &lt;/head&gt;
+      &lt;body style=&quot;margin: 0; padding: 0; font-family: &#039;Segoe UI&#039;, Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc;&quot;&gt;
+        &lt;div style=&quot;max-width: 600px; margin: 0 auto; background-color: white;&quot;&gt;
+          &lt;div style=&quot;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px 20px; text-align: center;&quot;&gt;
+            &lt;h1 style=&quot;margin: 0; font-size: 28px; font-weight: bold;&quot;&gt;GLEN&lt;/h1&gt;
+            &lt;p style=&quot;margin: 10px 0 0 0; font-size: 16px;&quot;&gt;Hotel Booking System&lt;/p&gt;
+          &lt;/div&gt;
+          
+          &lt;div style=&quot;padding: 30px 20px; text-align: center;&quot;&gt;
+            &lt;div style=&quot;background-color: ${statusBg}; color: ${statusColor}; padding: 15px; border-radius: 8px; margin-bottom: 20px;&quot;&gt;
+              &lt;h2 style=&quot;margin: 0; font-size: 24px;&quot;&gt;Booking ${updateType.charAt(0).toUpperCase() + updateType.slice(1)}&lt;/h2&gt;
+              &lt;p style=&quot;margin: 10px 0 0 0;&quot;&gt;Dear ${userName}, your booking has been ${updateType}.&lt;/p&gt;
+            &lt;/div&gt;
+            
+            &lt;p style=&quot;color: #6b7280; margin: 20px 0;&quot;&gt;Booking ID: &lt;strong&gt;${booking._id}&lt;/strong&gt;&lt;/p&gt;
+            &lt;p style=&quot;color: #6b7280;&quot;&gt;Hotel: &lt;strong&gt;${hotelDetails.title}&lt;/strong&gt;&lt;/p&gt;
+          &lt;/div&gt;
+          
+          &lt;div style=&quot;background-color: #374151; color: #d1d5db; padding: 20px; text-align: center;&quot;&gt;
+            &lt;p style=&quot;margin: 0;&quot;&gt;Thank you for choosing Glen Hotels!&lt;/p&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/body&gt;
+      &lt;/html&gt;
+    `
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Glen booking ${updateType} email sent successfully`);
+    return { success: true };
+  } catch (error) {
+    console.error(`Error sending Glen ${updateType} email:`, error);
+    return { success: false, error: error.message };
+  }
+};</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

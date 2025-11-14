@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - C:\Users\Hp\Desktop\PROJECTS\Hotel-Booking\client\src\assets\assets.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>C:\Users\Hp\Desktop\PROJECTS\Hotel-Booking\client\src\assets\assets.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">100.00</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">256</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">10.97</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">2.20</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">import logo from &#039;./logo.svg&#039;
+import searchIcon from &#039;./searchIcon.svg&#039;
+import userIcon from &#039;./userIcon.svg&#039;
+import calenderIcon from &#039;./calenderIcon.svg&#039;
+import locationIcon from &#039;./locationIcon.svg&#039;
+import starIconFilled from &#039;./starIconFilled.svg&#039;
+import arrowIcon from &#039;./arrowIcon.svg&#039;
+import starIconOutlined from &#039;./starIconOutlined.svg&#039;
+import instagramIcon from &#039;./instagramIcon.svg&#039;
+import facebookIcon from &#039;./facebookIcon.svg&#039;
+import twitterIcon from &#039;./twitterIcon.svg&#039;
+import linkendinIcon from &#039;./linkendinIcon.svg&#039;
+import freeWifiIcon from &#039;./freeWifiIcon.svg&#039;
+import freeBreakfastIcon from &#039;./freeBreakfastIcon.svg&#039;
+import roomServiceIcon from &#039;./roomServiceIcon.svg&#039;
+import mountainIcon from &#039;./mountainIcon.svg&#039;
+import poolIcon from &#039;./poolIcon.svg&#039;
+import homeIcon from &#039;./homeIcon.svg&#039;
+import closeIcon from &#039;./closeIcon.svg&#039;
+import locationFilledIcon from &#039;./locationFilledIcon.svg&#039;
+import heartIcon from &#039;./heartIcon.svg&#039;
+import badgeIcon from &#039;./badgeIcon.svg&#039;
+import menuIcon from &#039;./menuIcon.svg&#039;
+import closeMenu from &#039;./closeMenu.svg&#039;
+import guestsIcon from &#039;./guestsIcon.svg&#039;
+import roomImg1 from &#039;./roomImg1.png&#039;
+import roomImg2 from &#039;./roomImg2.png&#039;
+import roomImg3 from &#039;./roomImg3.png&#039;
+import roomImg4 from &#039;./roomImg4.png&#039;
+import regImage from &#039;./regImage.png&#039;
+import exclusiveOfferCardImg1 from &quot;./exclusiveOfferCardImg1.png&quot;;
+import exclusiveOfferCardImg2 from &quot;./exclusiveOfferCardImg2.png&quot;;
+import exclusiveOfferCardImg3 from &quot;./exclusiveOfferCardImg3.png&quot;;
+import addIcon from &quot;./addIcon.svg&quot;;
+import dashboardIcon from &quot;./dashboardIcon.svg&quot;;
+import listIcon from &quot;./listIcon.svg&quot;;
+import uploadArea from &quot;./uploadArea.svg&quot;;
+import totalBookingIcon from &quot;./totalBookingIcon.svg&quot;;
+import totalRevenueIcon from &quot;./totalRevenueIcon.svg&quot;;
+
+
+export const assets = {
+    logo,
+    searchIcon,
+    userIcon,
+    calenderIcon,
+    locationIcon,
+    starIconFilled,
+    arrowIcon,
+    starIconOutlined,
+    instagramIcon,
+    facebookIcon,
+    twitterIcon,
+    linkendinIcon,
+    freeWifiIcon,
+    freeBreakfastIcon,
+    roomServiceIcon,
+    mountainIcon,
+    poolIcon,
+    closeIcon,
+    homeIcon,
+    locationFilledIcon,
+    heartIcon,
+    badgeIcon,
+    menuIcon,
+    closeMenu,
+    guestsIcon,
+    regImage,
+    addIcon,
+    dashboardIcon,
+    listIcon,
+    uploadArea,
+    totalBookingIcon,
+    totalRevenueIcon,
+}
+
+
+// Exclusive Offers Dummy Data
+export const exclusiveOffers = [
+    { _id: 1, title: &quot;Summer Escape Package&quot;, description: &quot;Enjoy a complimentary night and daily breakfast&quot;, priceOff: 25, expiryDate: &quot;Aug 31&quot;, image: exclusiveOfferCardImg1 },
+    { _id: 2, title: &quot;Romantic Getaway&quot;, description: &quot;Special couples package including spa treatment&quot;, priceOff: 20, expiryDate: &quot;Sep 20&quot;, image: exclusiveOfferCardImg2 },
+    { _id: 3, title: &quot;Luxury Retreat&quot;, description: &quot;Book 60 days in advance and save on your stay at any of our luxury properties worldwide.&quot;, priceOff: 30, expiryDate: &quot;Sep 25&quot;, image: exclusiveOfferCardImg3 },
+]
+
+// Testimonials Dummy Data
+export const testimonials = [
+    { id: 1, name: &quot;Emma Rodriguez&quot;, address: &quot;Barcelona, Spain&quot;, image: &quot;https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&amp;w=200&quot;, rating: 5, review: &quot;I&#039;ve used many booking platforms before, but none compare to the personalized experience and attention to detail that QuickStay provides.&quot; },
+    { id: 2, name: &quot;Liam Johnson&quot;, address: &quot;New York, USA&quot;, image: &quot;https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&amp;w=200&quot;, rating: 4, review: &quot;QuickStay exceeded my expectations. The booking process was seamless, and the hotels were absolutely top-notch. Highly recommended!&quot; },
+    { id: 3, name: &quot;Sophia Lee&quot;, address: &quot;Seoul, South Korea&quot;, image: &quot;https://images.unsplash.com/photo-1701615004837-40d8573b6652?q=80&amp;w=200&quot;, rating: 5, review: &quot;Amazing service! I always find the best luxury accommodations through QuickStay. Their recommendations never disappoint!&quot; }
+];
+
+// Facility Icon
+export const facilityIcons = {
+    &quot;Free WiFi&quot;: assets.freeWifiIcon,
+    &quot;Free Breakfast&quot;: assets.freeBreakfastIcon,
+    &quot;Room Service&quot;: assets.roomServiceIcon,
+    &quot;Mountain View&quot;: assets.mountainIcon,
+    &quot;Pool Access&quot;: assets.poolIcon,
+};
+
+// For Room Details Page
+export const roomCommonData = [
+    { icon: assets.homeIcon, title: &quot;Clean &amp; Safe Stay&quot;, description: &quot;A well-maintained and hygienic space just for you.&quot; },
+    { icon: assets.badgeIcon, title: &quot;Enhanced Cleaning&quot;, description: &quot;This host follows Staybnb&#039;s strict cleaning standards.&quot; },
+    { icon: assets.locationFilledIcon, title: &quot;Excellent Location&quot;, description: &quot;90% of guests rated the location 5 stars.&quot; },
+    { icon: assets.heartIcon, title: &quot;Smooth Check-In&quot;, description: &quot;100% of guests gave check-in a 5-star rating.&quot; },
+];
+
+// User Dummy Data
+export const userDummyData = {
+    &quot;_id&quot;: &quot;user_2unqyL4diJFP1E3pIBnasc7w8hP&quot;,
+    &quot;username&quot;: &quot;Great Stack&quot;,
+    &quot;email&quot;: &quot;user.greatstack@gmail.com&quot;,
+    &quot;image&quot;: &quot;https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ2N2c5YVpSSEFVYVUxbmVYZ2JkSVVuWnFzWSJ9&quot;,
+    &quot;role&quot;: &quot;hotelOwner&quot;,
+    &quot;createdAt&quot;: &quot;2025-03-25T09:29:16.367Z&quot;,
+    &quot;updatedAt&quot;: &quot;2025-04-10T06:34:48.719Z&quot;,
+    &quot;__v&quot;: 1,
+    &quot;recentSearchedCities&quot;: [
+        &quot;New York&quot;
+    ]
+}
+
+// Hotel Dummy Data
+export const hotelDummyData = {
+    &quot;_id&quot;: &quot;67f76393197ac559e4089b72&quot;,
+    &quot;name&quot;: &quot;Urbanza Suites&quot;,
+    &quot;address&quot;: &quot;Main Road  123 Street , 23 Colony&quot;,
+    &quot;contact&quot;: &quot;+0123456789&quot;,
+    &quot;owner&quot;: userDummyData,
+    &quot;city&quot;: &quot;New York&quot;,
+    &quot;createdAt&quot;: &quot;2025-04-10T06:22:11.663Z&quot;,
+    &quot;updatedAt&quot;: &quot;2025-04-10T06:22:11.663Z&quot;,
+    &quot;__v&quot;: 0
+}
+
+// Rooms Dummy Data
+export const roomsDummyData = [
+    {
+        &quot;_id&quot;: &quot;67f7647c197ac559e4089b96&quot;,
+        &quot;hotel&quot;: hotelDummyData,
+        &quot;roomType&quot;: &quot;Double Bed&quot;,
+        &quot;pricePerNight&quot;: 399,
+        &quot;amenities&quot;: [&quot;Room Service&quot;, &quot;Mountain View&quot;, &quot;Pool Access&quot;],
+        &quot;images&quot;: [roomImg1, roomImg2, roomImg3, roomImg4],
+        &quot;isAvailable&quot;: true,
+        &quot;createdAt&quot;: &quot;2025-04-10T06:26:04.013Z&quot;,
+        &quot;updatedAt&quot;: &quot;2025-04-10T06:26:04.013Z&quot;,
+        &quot;__v&quot;: 0
+    },
+    {
+        &quot;_id&quot;: &quot;67f76452197ac559e4089b8e&quot;,
+        &quot;hotel&quot;: hotelDummyData,
+        &quot;roomType&quot;: &quot;Double Bed&quot;,
+        &quot;pricePerNight&quot;: 299,
+        &quot;amenities&quot;: [&quot;Room Service&quot;, &quot;Mountain View&quot;, &quot;Pool Access&quot;],
+        &quot;images&quot;: [roomImg2, roomImg3, roomImg4, roomImg1],
+        &quot;isAvailable&quot;: true,
+        &quot;createdAt&quot;: &quot;2025-04-10T06:25:22.593Z&quot;,
+        &quot;updatedAt&quot;: &quot;2025-04-10T06:25:22.593Z&quot;,
+        &quot;__v&quot;: 0
+    },
+    {
+        &quot;_id&quot;: &quot;67f76406197ac559e4089b82&quot;,
+        &quot;hotel&quot;: hotelDummyData,
+        &quot;roomType&quot;: &quot;Double Bed&quot;,
+        &quot;pricePerNight&quot;: 249,
+        &quot;amenities&quot;: [&quot;Free WiFi&quot;, &quot;Free Breakfast&quot;, &quot;Room Service&quot;],
+        &quot;images&quot;: [roomImg3, roomImg4, roomImg1, roomImg2],
+        &quot;isAvailable&quot;: true,
+        &quot;createdAt&quot;: &quot;2025-04-10T06:24:06.285Z&quot;,
+        &quot;updatedAt&quot;: &quot;2025-04-10T06:24:06.285Z&quot;,
+        &quot;__v&quot;: 0
+    },
+    {
+        &quot;_id&quot;: &quot;67f763d8197ac559e4089b7a&quot;,
+        &quot;hotel&quot;: hotelDummyData,
+        &quot;roomType&quot;: &quot;Single Bed&quot;,
+        &quot;pricePerNight&quot;: 199,
+        &quot;amenities&quot;: [&quot;Free WiFi&quot;, &quot;Room Service&quot;, &quot;Pool Access&quot;],
+        &quot;images&quot;: [roomImg4, roomImg1, roomImg2, roomImg3],
+        &quot;isAvailable&quot;: true,
+        &quot;createdAt&quot;: &quot;2025-04-10T06:23:20.252Z&quot;,
+        &quot;updatedAt&quot;: &quot;2025-04-10T06:23:20.252Z&quot;,
+        &quot;__v&quot;: 0
+    }
+]
+
+
+
+// User Bookings Dummy Data
+export const userBookingsDummyData = [
+    {
+        &quot;_id&quot;: &quot;67f76839994a731e97d3b8ce&quot;,
+        &quot;user&quot;: userDummyData,
+        &quot;room&quot;: roomsDummyData[1],
+        &quot;hotel&quot;: hotelDummyData,
+        &quot;checkInDate&quot;: &quot;2025-04-30T00:00:00.000Z&quot;,
+        &quot;checkOutDate&quot;: &quot;2025-05-01T00:00:00.000Z&quot;,
+        &quot;totalPrice&quot;: 299,
+        &quot;guests&quot;: 1,
+        &quot;status&quot;: &quot;pending&quot;,
+        &quot;paymentMethod&quot;: &quot;Stripe&quot;,
+        &quot;isPaid&quot;: true,
+        &quot;createdAt&quot;: &quot;2025-04-10T06:42:01.529Z&quot;,
+        &quot;updatedAt&quot;: &quot;2025-04-10T06:43:54.520Z&quot;,
+        &quot;__v&quot;: 0
+    },
+    {
+        &quot;_id&quot;: &quot;67f76829994a731e97d3b8c3&quot;,
+        &quot;user&quot;: userDummyData,
+        &quot;room&quot;: roomsDummyData[0],
+        &quot;hotel&quot;: hotelDummyData,
+        &quot;checkInDate&quot;: &quot;2025-04-27T00:00:00.000Z&quot;,
+        &quot;checkOutDate&quot;: &quot;2025-04-28T00:00:00.000Z&quot;,
+        &quot;totalPrice&quot;: 399,
+        &quot;guests&quot;: 1,
+        &quot;status&quot;: &quot;pending&quot;,
+        &quot;paymentMethod&quot;: &quot;Pay At Hotel&quot;,
+        &quot;isPaid&quot;: false,
+        &quot;createdAt&quot;: &quot;2025-04-10T06:41:45.873Z&quot;,
+        &quot;updatedAt&quot;: &quot;2025-04-10T06:41:45.873Z&quot;,
+        &quot;__v&quot;: 0
+    },
+    {
+        &quot;_id&quot;: &quot;67f76810994a731e97d3b8b4&quot;,
+        &quot;user&quot;: userDummyData,
+        &quot;room&quot;: roomsDummyData[3],
+        &quot;hotel&quot;: hotelDummyData,
+        &quot;checkInDate&quot;: &quot;2025-04-11T00:00:00.000Z&quot;,
+        &quot;checkOutDate&quot;: &quot;2025-04-12T00:00:00.000Z&quot;,
+        &quot;totalPrice&quot;: 199,
+        &quot;guests&quot;: 1,
+        &quot;status&quot;: &quot;pending&quot;,
+        &quot;paymentMethod&quot;: &quot;Pay At Hotel&quot;,
+        &quot;isPaid&quot;: false,
+        &quot;createdAt&quot;: &quot;2025-04-10T06:41:20.501Z&quot;,
+        &quot;updatedAt&quot;: &quot;2025-04-10T06:41:20.501Z&quot;,
+        &quot;__v&quot;: 0
+    }
+]
+
+// Dashboard Dummy Data
+export const dashboardDummyData = {
+    &quot;totalBookings&quot;: 3,
+    &quot;totalRevenue&quot;: 897,
+    &quot;bookings&quot;: userBookingsDummyData
+}
+
+// --------- SVG code for Book Icon------
+
+const BookIcon = ()=&gt;(
+    &lt;svg className=&quot;w-4 h-4 text-gray-700&quot; aria-hidden=&quot;true&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; fill=&quot;none&quot; viewBox=&quot;0 0 24 24&quot; &gt;
+    &lt;path stroke=&quot;currentColor&quot; strokeLinecap=&quot;round&quot; strokeLinejoin=&quot;round&quot; strokeWidth=&quot;2&quot; d=&quot;M5 19V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v13H7a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h12M9 3v14m7 0v4&quot; /&gt;
+&lt;/svg&gt;
+)</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>
