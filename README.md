@@ -1,9 +1,8 @@
 # Hotel Booking System – Simple Documentation
 
-**Repo**: [https://github.com/SS-S3/Hotel-Booking](https://github.com/SS-S3/Hotel-Booking)  
 **Live Demo**: [https://hotel-booking-chi-pied.vercel.app/](https://hotel-booking-chi-pied.vercel.app/)  
-**Date**: November 09, 2025  
-**Author**: SS-S3  
+**Date**: November 14, 2025  
+**Author**: Tushar8691  
 
 ---
 
@@ -62,7 +61,7 @@ Hotel-Booking/
 ---
 
 ## Setup
-1. **Clone**: `git clone https://github.com/SS-S3/Hotel-Booking.git && cd Hotel-Booking`
+1. **Clone**: `git clon https://github.com/Tushar8691/Glen-Hotel-booking-system.git && cd Hotel-Booking`
 2. **Backend**:
    - `cd server && npm install`
    - Copy `.env.example` to `.env`: Add `MONGODB_URI`, `CLERK_SECRET_KEY`, `EMAIL_USER/PASS`.
